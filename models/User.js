@@ -1,16 +1,41 @@
+// models/User.js
 import mongoose from "mongoose";
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+
+const userSchema = new mongoose.Schema({
+  prenom: {
+    type: String,
+    required: true,
   },
-  {
-    timestamps: true,
-  }
-);
+  nom: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  mot_de_passe: {
+    type: String,
+    required: true,
+  },
+  telephone: {
+    type: String,
+  },
+  est_proprietaire: {
+    type: Boolean,
+    default: false,
+  },
+  est_locataire: {
+    type: Boolean,
+    default: true,
+  },
+  statut_compte: {
+    type: String,
+    enum: ["en_attente", "activé", "désactivé"],
+    default: "en_attente",
+  },
+});
 
 const User = mongoose.model("User", userSchema);
 
