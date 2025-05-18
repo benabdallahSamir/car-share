@@ -1,0 +1,26 @@
+document
+  .getElementById("documents-form")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const cartGris = document.getElementById("carte-grise").files[0];
+    const permis = document.getElementById("permis").files[0];
+    if (!cartGris || !permis) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("images", cartGris);
+    formData.append("images", permis);
+
+    const res = await fetch("/api/car/documents", {
+      method: "POST",
+      body: formData,
+    });
+    if (res.status === 201) {
+      window.location.href = "enregistrer-photo";
+      return;
+    } else {
+      console.error(res.status);
+    }
+  });
