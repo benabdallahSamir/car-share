@@ -2,29 +2,57 @@ import { generateToken } from "../middlewars/token.js";
 import User from "../models/User.js";
 import { comparePassword, hashPassword } from "../utils/bcryptControll.js";
 
+const registerData = {
+  telephone: "",
+  prenom: "",
+  email: "",
+  nom: "",
+  confirmPassword: "",
+  password: "",
+};
+const connexionData = {
+  email: "",
+  password: "",
+};
 // get request for login and register
 export async function login(req, res) {
-  res.render("connexion");
+  res.render("connexion", { ...connexionData, values: connexionData });
 }
 
 export async function register(req, res) {
-  res.render("inscription");
+  res.render("inscription", { ...registerData, values: registerData });
 }
 
 // post request for login and register
 export async function postLogin(req, res) {
   let { email, password, rememberMe } = req.body;
   rememberMe = rememberMe ? true : false;
+  const connexionDataCopy = connexionData;
   try {
-    if (!email || !password) {
-      // todo : goto login page with error message
-      res.redirect("/connexion");
+    if (!email) {
+      connexionDataCopy.email = "email is required";
+      return res.render("connexion", {
+        ...connexionDataCopy,
+        values: req.body,
+      });
     }
+    if (!password) {
+      connexionDataCopy.password = "password is required";
+      return res.render("connexion", {
+        ...connexionDataCopy,
+        values: req.body,
+      });
+    }
+
     // check if email already exists
     const user = await User.findOne({ email });
     if (!user) {
-      // todo : goto login page with error message
-      res.redirect("/connexion");
+      connexionDataCopy.password = "email or password inccorect";
+      connexionDataCopy.email = "email or password inccorect";
+      return res.render("connexion", {
+        ...connexionDataCopy,
+        values: req.body,
+      });
     }
     // check if password is correct
     const isPasswordCorrect = await comparePassword(
@@ -32,48 +60,81 @@ export async function postLogin(req, res) {
       user.mot_de_passe
     );
     if (!isPasswordCorrect) {
-      // todo : goto login page with error message
-      res.redirect("/connexion");
+      connexionDataCopy.password = "email or password inccorect";
+      connexionDataCopy.email = "email or password inccorect";
+      return res.render("connexion", connexionDataCopy);
     }
     generateToken(user._id, res);
     res.redirect("/");
   } catch (error) {
     console.log(error);
-    // todo : goto login page with error message
-    res.redirect("/connexion");
+    res.render("500");
   }
 }
 
 export async function postRegister(req, res) {
   let { confirmPassword, email, password, telephone, nom, prenom } = req.body;
+  const registerDataCopy = registerData;
   try {
-    if (
-      !email ||
-      !password ||
-      !confirmPassword ||
-      !telephone ||
-      !nom ||
-      !prenom
-    ) {
-      // todo : goto register page with error message
-      res.redirect("/inscription");
+    if (!nom) {
+      registerDataCopy.nom = "nom is required";
+      return res.render("inscription", {
+        ...registerDataCopy,
+        values: req.body,
+      });
     }
+    if (!prenom) {
+      registerDataCopy.prenom = "prenom is required";
+      return res.render("inscription", {
+        ...registerDataCopy,
+        values: req.body,
+      });
+    }
+    if (!telephone) {
+      registerDataCopy.telephone = "telephone is required";
+      return res.render("inscription", {
+        ...registerDataCopy,
+        values: req.body,
+      });
+    }
+    if (!email) {
+      registerDataCopy.email = "email is required";
+      return res.render("inscription", {
+        ...registerDataCopy,
+        values: req.body,
+      });
+    }
+    if (!password) {
+      registerDataCopy.password = "password is required";
+      return res.render("inscription", {
+        ...registerDataCopy,
+        values: req.body,
+      });
+    }
+    if (!confirmPassword) {
+      registerDataCopy.confirmPassword = "confirm password is required";
+      return res.render("inscription", {
+        ...registerDataCopy,
+        values: req.body,
+      });
+    }
+
     if (password !== confirmPassword) {
-      // todo : goto register page with error message
-      res.redirect("/inscription");
+      registerDataCopy.confirmPassword = "your confirm password are incorrect";
+      return res.render("inscription", {
+        ...registerDataCopy,
+        values: req.body,
+      });
     }
     // check if email already exists
     const user = await User.findOne({ email });
     if (user) {
-      // todo : goto register page with error message
-      res.redirect("/inscription");
+      registerDataCopy.email = "this email is token";
+      res.render("inscription", { ...registerDataCopy, values: req.body });
     }
     // hash password
     const hashedPassword = await hashPassword(password);
-    if (!hashedPassword) {
-      // todo : goto register page with error message
-      res.redirect("/inscription");
-    }
+
     // create new user
     const newUser = await new User({
       prenom,
@@ -87,7 +148,6 @@ export async function postRegister(req, res) {
     res.redirect("/");
   } catch (error) {
     console.log(error);
-    // todo : goto register page with error message
-    res.redirect("/inscription");
+    res.render("500");
   }
 }
