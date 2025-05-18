@@ -28,37 +28,79 @@
 
               <form class="auth-form" action="/register" method="POST">
                 <div class="form-row">
-                  <div class="form-group">
+                  <div class="form-group <%= prenom !== '' ? 'error' : '' %>">
                     <label for="prenom">Prénom</label>
-                    <input type="text" id="prenom" name="prenom" required />
+                    <input
+                      value="<%= values.prenom %>"
+                      type="text"
+                      id="prenom"
+                      name="prenom"
+                      required
+                    />
+                    <% if (prenom !== '') { %>
+                    <div class="error-message"><%= prenom %></div>
+                    <% } %>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group <%= nom !== '' ? 'error' : '' %>">
                     <label for="nom">Nom</label>
-                    <input type="text" id="nom" name="nom" required />
+                    <input
+                      type="text"
+                      value="<%= values.nom %>"
+                      id="nom"
+                      name="nom"
+                      required
+                    />
+                    <% if (nom !== '') { %>
+                    <div class="error-message"><%= nom %></div>
+                    <% } %>
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group <%= email !== '' ? 'error' : '' %>">
                   <label for="email">Email</label>
-                  <input type="email" id="email" name="email" required />
+                  <input
+                    type="email"
+                    value="<%= values.email %>"
+                    id="email"
+                    name="email"
+                    required
+                  />
+                  <% if (email !== '') { %>
+                  <div class="error-message"><%= email %></div>
+                  <% } %>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group <%= telephone!== '' ? 'error' : '' %>">
                   <label for="telephone">Téléphone</label>
-                  <input type="tel" id="telephone" name="telephone" required />
+                  <input
+                    type="tel"
+                    value="<%= values.telephone%>"
+                    id="telephone"
+                    name="telephone"
+                    required
+                  />
+                  <% if (telephone!== '') { %>
+                  <div class="error-message"><%= telephone%></div>
+                  <% } %>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group <%= password !== '' ? 'error' : '' %>">
                   <label for="password">Mot de passe</label>
                   <input
                     type="password"
                     id="password"
                     name="password"
+                    value="<%= values.password %>"
                     required
                   />
+                  <% if (password !== '') { %>
+                  <div class="error-message"><%= password %></div>
+                  <% } %>
                 </div>
 
-                <div class="form-group">
+                <div
+                  class="form-group <%= confirmPassword !== '' ? 'error' : '' %>"
+                >
                   <label for="confirm-password"
                     >Confirmer le mot de passe</label
                   >
@@ -66,8 +108,12 @@
                     type="password"
                     id="confirm-password"
                     name="confirmPassword"
+                    value="<%= values.confirmPassword %>"
                     required
                   />
+                  <% if (confirmPassword !== '') { %>
+                  <div class="error-message"><%= confirmPassword %></div>
+                  <% } %>
                 </div>
 
                 <div class="form-group checkbox">
@@ -79,10 +125,8 @@
                   />
                   <label for="accept-terms"
                     >J'accepte les
-                    <a href="#" class="text-link"
-                      >conditions d'utilisation</a
-                    ></label
-                  >
+                    <a href="#" class="text-link"> conditions d'utilisation </a>
+                  </label>
                 </div>
 
                 <button type="submit" class="btn-auth" id="btn-auth">

@@ -5,7 +5,7 @@ const telephone = document.querySelector("#telephone");
 const password = document.querySelector("#password");
 // fonc vérification password
 const confirm_password = document.querySelector("#confirm-password");
-// fonc no no btn if not accepted 
+// fonc no no btn if not accepted
 const accept_terms = document.querySelector("#accept-terms");
 const btn_auth = document.querySelector("#btn-auth");
 let pass = false;
@@ -17,20 +17,22 @@ if (password && confirm_password && accept_terms && btn_auth) {
     const termsAccepted = accept_terms.checked;
 
     if (passwordsMatch) {
-      confirm_password.setCustomValidity('');
+      confirm_password.setCustomValidity("");
     } else {
-      confirm_password.setCustomValidity('Les mots de passe ne correspondent pas');
+      confirm_password.setCustomValidity(
+        "Les mots de passe ne correspondent pas"
+      );
     }
 
     btn_auth.disabled = !(passwordsMatch && termsAccepted);
   }
 
-  confirm_password.addEventListener('input', validateForm);
-  password.addEventListener('input', validateForm);
-  accept_terms.addEventListener('change', validateForm);
+  confirm_password.addEventListener("input", validateForm);
+  password.addEventListener("input", validateForm);
+  accept_terms.addEventListener("change", validateForm);
 
   // Appel initial pour désactiver le bouton si nécessaire
   validateForm();
 }
 
-export {prenom, nom, email, telephone, password, pass};
+export { prenom, nom, email, telephone, password, pass };
