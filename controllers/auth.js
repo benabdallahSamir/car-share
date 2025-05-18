@@ -130,7 +130,7 @@ export async function postRegister(req, res) {
     const user = await User.findOne({ email });
     if (user) {
       registerDataCopy.email = "this email is token";
-      res.render("inscription", { ...registerDataCopy, values: req.body });
+      return res.render("inscription", { ...registerDataCopy, values: req.body });
     }
     // hash password
     const hashedPassword = await hashPassword(password);
