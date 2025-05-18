@@ -12,7 +12,13 @@
   </head>
   <body>
     <div class="page-wrapper">
-        <%- include('./components/navbar.ejs') %>
+      <% if (!isLogged) { %>
+          <%- include('components/navbar') %>      
+      <% } else if (!user.est_proprietaire) { %>
+          <%- include('components/navbarLocataire.ejs') %>     
+      <% } else { %>
+          <%- include('components/navbarProprietaire.ejs') %>     
+      <% } %>
       <section class="hero">
         <div class="container">
           <div class="hero-content">
@@ -272,6 +278,6 @@
       </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/js/script.js"></script>
   </body>
 </html>

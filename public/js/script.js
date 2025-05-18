@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   // Ensure the hero section fills the viewport
   function adjustHeroHeight() {
     const header = document.querySelector("header");
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (searchForm) {
     const searchButton = searchForm.querySelector(".btn-search");
 
-    searchButton.addEventListener("click", function (e) {
+    searchButton.addEventListener("click", (e) => {
       e.preventDefault();
 
       const addressInput = searchForm.querySelector(
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (nav) {
       header.querySelector(".container").insertBefore(mobileMenuBtn, nav);
 
-      mobileMenuBtn.addEventListener("click", function () {
+      mobileMenuBtn.addEventListener("click", () => {
         nav.querySelector("ul").classList.toggle("show");
       });
     }
@@ -118,11 +118,58 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Window resize event
-  window.addEventListener("resize", function () {
+  window.addEventListener("resize", () => {
     if (window.innerWidth < 768) {
       if (!document.querySelector(".mobile-menu-btn")) {
         createMobileMenu();
       }
     }
   });
+
+  // User Menu Functionality
+  const userMenu = document.getElementById("userMenu");
+  if (userMenu) {
+    const userMenuBtn = userMenu.querySelector(".user-menu-btn");
+
+    userMenuBtn.addEventListener("click", () => {
+      userMenu.classList.toggle("active");
+    });
+
+    // Fermer le menu si on clique ailleurs
+    document.addEventListener("click", (event) => {
+      if (userMenu && !userMenu.contains(event.target)) {
+        userMenu.classList.remove("active");
+      }
+    });
+  }
+
+
+  // Fonction pour mettre à jour l'interface utilisateur
+  function updateUserInterface() {
+
+    // Éléments à afficher/masquer
+    const userMenuContainer = document.getElementById("user-menu-container");
+    const loginButton = document.getElementById("login-button");
+    const louerVoitureLink = document.getElementById("louer-voiture-link");
+    const mesReservationsLink = document.getElementById(
+      "mes-reservations-link"
+    );
+    const dashboardProprietaire = document.getElementById(
+      "dashboardProprietaire"
+    );
+    const dashboardLocataire = document.getElementById("dashboardLocataire");
+
+    // Utilisateur connecté
+    if (userMenuContainer) userMenuContainer.style.display = "block";
+    if (loginButton) loginButton.style.display = "none";
+
+    // Mettre à jour les informations utilisateur
+    const userName = document.getElementById("userName");
+    const userInitial = document.getElementById("userInitial");
+
+ 
+  }
+
+  // Vérifier le statut de l'utilisateur au chargement de la page
+  updateUserInterface();
 });
