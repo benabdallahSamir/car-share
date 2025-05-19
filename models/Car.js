@@ -16,6 +16,7 @@ const carSchema = new mongoose.Schema(
     // Technical specifications
     Carburant: {
       type: String,
+      default: "Essence",
     },
     cardGris: {
       type: String,
@@ -26,6 +27,18 @@ const carSchema = new mongoose.Schema(
     Caracteristiques: {
       type: [String],
       default: [],
+    },
+    location: {
+      type: String,
+      default: "",
+    },
+    kilometrage: {
+      type: Number,
+      default: 0,
+    },
+    cartGris: {
+      type: String,
+      defulat: "",
     },
     userId: {
       type: String,
@@ -38,9 +51,11 @@ const carSchema = new mongoose.Schema(
     },
     Places: {
       type: Number,
+      defualt: 5,
     },
     Annee: {
       type: Number,
+      default: 2010,
     },
     remiseSemaine: {
       type: Number,
@@ -64,7 +79,7 @@ const carSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["en_attente", "publiée", "refusée", "archivée"],
+      enum: ["en_attente", "publiee", "refusée", "archivée"],
       default: "en_attente",
     },
   },
