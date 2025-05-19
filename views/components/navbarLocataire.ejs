@@ -1,18 +1,18 @@
 <header>
   <div class="container">
     <div class="logo">
-      <a href="#"><span>CarShare</span></a>
+      <a href="/"><span>CarShare</span></a>
     </div>
     <nav>
       <ul>
         <!-- Liens communs toujours visibles -->
-        <li><a href="#">Des questions ?</a></li>
-        <li><a href="#">Blog</a></li>
-
-        <li id="mes-reservations-link">
-          <a href="mes-reservations">Mes réservations</a>
+        <li><a href="/">Des questions ?</a></li>
+        <li><a href="/">Blog</a></li>
+        <li id="louer-voiture-link">
+          <a href="/enregister-vehicule" class="btn-primary"
+            >Louer ma voiture</a
+          >
         </li>
-
         <!-- Menu utilisateur (visible si connecté) -->
         <li id="user-menu-container">
           <div class="user-menu" id="userMenu">
@@ -25,37 +25,25 @@
               <i class="fas fa-chevron-down"></i>
             </button>
             <div class="user-dropdown">
-              <a href="profil" class="dropdown-item">
+              <a href="/profil" class="dropdown-item">
                 <i class="fas fa-user"></i>
                 Mon profil
               </a>
-              <a href="paiements" class="dropdown-item">
+              <a href="/paiements" class="dropdown-item">
                 <i class="fas fa-credit-card"></i>
                 Paiements
               </a>
-              <a href="parametres" class="dropdown-item">
-                <i class="fas fa-cog"></i>
-                Paramètres
-              </a>
               <!-- Liens conditionnels vers les tableaux de bord -->
+
               <a
-                href="dashboard-proprietaire"
-                class="dropdown-item"
-                id="dashboardProprietaire"
-              >
-                <i class="fas fa-tachometer-alt"></i>
-                Tableau de bord propriétaire
-              </a>
-              <a
-                href="dashboard-locataire"
+                href="/dashboard-locataire"
                 class="dropdown-item"
                 id="dashboardLocataire"
-                style="display: none"
               >
                 <i class="fas fa-tachometer-alt"></i>
                 Tableau de bord locataire
               </a>
-              <a href="aide" class="dropdown-item">
+              <a href="/aide" class="dropdown-item">
                 <i class="fas fa-question-circle"></i>
                 Aide et support
               </a>

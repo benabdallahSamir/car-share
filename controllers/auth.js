@@ -27,7 +27,7 @@ export async function register(req, res) {
 export async function postLogin(req, res) {
   let { email, password, rememberMe } = req.body;
   rememberMe = rememberMe ? true : false;
-  const connexionDataCopy = connexionData;
+  const connexionDataCopy = { ...connexionData };
   try {
     if (!email) {
       connexionDataCopy.email = "email is required";
@@ -62,7 +62,7 @@ export async function postLogin(req, res) {
     if (!isPasswordCorrect) {
       connexionDataCopy.password = "email or password inccorect";
       connexionDataCopy.email = "email or password inccorect";
-      return res.render("connexion", connexionDataCopy);
+      return res.render("connexion", {...connexionDataCopy ,values : req.body });
     }
     generateToken(user._id, res);
     res.redirect("/");
@@ -74,7 +74,7 @@ export async function postLogin(req, res) {
 
 export async function postRegister(req, res) {
   let { confirmPassword, email, password, telephone, nom, prenom } = req.body;
-  const registerDataCopy = registerData;
+  const registerDataCopy = {...registerData};
   try {
     if (!nom) {
       registerDataCopy.nom = "nom is required";
@@ -130,7 +130,10 @@ export async function postRegister(req, res) {
     const user = await User.findOne({ email });
     if (user) {
       registerDataCopy.email = "this email is token";
-      return res.render("inscription", { ...registerDataCopy, values: req.body });
+      return res.render("inscription", {
+        ...registerDataCopy,
+        values: req.body,
+      });
     }
     // hash password
     const hashedPassword = await hashPassword(password);
