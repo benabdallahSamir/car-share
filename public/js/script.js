@@ -82,16 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Reserve buttons
-  const reserveButtons = document.querySelectorAll(".btn-reserve");
-  reserveButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      const carName = this.closest(".car-card").querySelector("h3").textContent;
-      alert(
-        `Vous allez réserver une ${carName}. Redirection vers la page de réservation...`
-      );
-    });
-  });
+
 
   // Mobile menu toggle (for responsive design)
   function createMobileMenu() {

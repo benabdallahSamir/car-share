@@ -12,13 +12,10 @@
   </head>
   <body>
     <div class="page-wrapper">
-      <% if (!isLogged) { %>
-          <%- include('components/navbar') %>      
-      <% } else if (!user.est_proprietaire) { %>
-          <%- include('components/navbarLocataire.ejs') %>     
-      <% } else { %>
-          <%- include('components/navbarProprietaire.ejs') %>     
-      <% } %>
+      <% if (!isLogged) { %> <%- include('components/navbar') %> <% } else if
+      (!user.est_proprietaire) { %> <%-
+      include('components/navbarLocataire.ejs') %> <% } else { %> <%-
+      include('components/navbarProprietaire.ejs') %> <% } %>
       <section class="hero">
         <div class="container">
           <div class="hero-content">
@@ -101,99 +98,39 @@
         <div class="container">
           <div class="section-header">
             <h2>Voitures populaires</h2>
-            <a href="recherche.html" class="view-all"
-              >Voir toutes les voitures</a
-            >
+            <a href="recherche" class="view-all">Voir toutes les voitures</a>
           </div>
 
           <div class="car-grid">
+            <% cars.forEach(car => { %>
             <div class="car-card">
               <div class="car-image">
-                <img
-                  src="/placeholder.svg?height=150&width=200"
-                  alt="Renault Clio"
-                />
-                <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+                <img src="<%=car.carImg %>" alt="My Image" />
+                <span class="rating"
+                  ><i class="fas fa-star"></i> <span>4.8</span></span
+                >
               </div>
               <div class="car-details">
-                <h3>Renault Clio</h3>
+                <h3><%= `${car.marque} ${car.modele}` %></h3>
                 <p class="location">
-                  <i class="fas fa-map-marker-alt"></i> Paris (2,5 km)
+                  <i class="fas fa-map-marker-alt"></i> <%=car.location%>
+                  (<%=car.kilometrage %> km)
                 </p>
                 <div class="car-footer">
-                  <span class="price"
-                    >25€ <span class="period">/ jour</span></span
+                  <span class="price">
+                    <%=car.prix %> DA
+                    <span class="period">/ jour</span></span
                   >
-                  <button class="btn-reserve">Réserver</button>
+                  <button
+                    class="btn-reserve"
+                    onclick="window.location.href='/annonce/<%=car._id%>'"
+                  >
+                    Réserver
+                  </button>
                 </div>
               </div>
             </div>
-
-            <div class="car-card">
-              <div class="car-image">
-                <img
-                  src="/placeholder.svg?height=150&width=200"
-                  alt="Peugeot 208"
-                />
-                <span class="rating"><i class="fas fa-star"></i> 4.7</span>
-              </div>
-              <div class="car-details">
-                <h3>Peugeot 208</h3>
-                <p class="location">
-                  <i class="fas fa-map-marker-alt"></i> Lyon (1,8 km)
-                </p>
-                <div class="car-footer">
-                  <span class="price"
-                    >28€ <span class="period">/ jour</span></span
-                  >
-                  <button class="btn-reserve">Réserver</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="car-card">
-              <div class="car-image">
-                <img
-                  src="/placeholder.svg?height=150&width=200"
-                  alt="Mini Cooper"
-                />
-                <span class="rating"><i class="fas fa-star"></i> 4.9</span>
-              </div>
-              <div class="car-details">
-                <h3>Mini Cooper</h3>
-                <p class="location">
-                  <i class="fas fa-map-marker-alt"></i> Marseille (3,2 km)
-                </p>
-                <div class="car-footer">
-                  <span class="price"
-                    >35€ <span class="period">/ jour</span></span
-                  >
-                  <button class="btn-reserve">Réserver</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="car-card">
-              <div class="car-image">
-                <img
-                  src="/placeholder.svg?height=150&width=200"
-                  alt="Citroën C3"
-                />
-                <span class="rating"><i class="fas fa-star"></i> 4.6</span>
-              </div>
-              <div class="car-details">
-                <h3>Citroën C3</h3>
-                <p class="location">
-                  <i class="fas fa-map-marker-alt"></i> Toulouse (1,5 km)
-                </p>
-                <div class="car-footer">
-                  <span class="price"
-                    >22€ <span class="period">/ jour</span></span
-                  >
-                  <button class="btn-reserve">Réserver</button>
-                </div>
-              </div>
-            </div>
+            <% }) %>
           </div>
         </div>
       </section>
