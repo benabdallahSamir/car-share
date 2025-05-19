@@ -22,7 +22,7 @@ export async function verifyToken(req, res, next) {
   try {
     const token = req.cookies.jwt;
     if (!token) {
-      req.user = {};
+      req.user = null;
       req.isLogged = false;
       return next();
     }
@@ -30,7 +30,7 @@ export async function verifyToken(req, res, next) {
     req.userId = userId;
     const user = await User.findById(userId);
     if (!user) {
-      req.user = {};
+      req.user = null;
       req.isLogged = false;
       return next();
     }
@@ -50,13 +50,13 @@ export async function accessToken(req, res, next) {
   try {
     const token = req.cookies.jwt;
     if (!token) {
-      return res.status(401);
+      return res.render("401");
     }
     const { userId } = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = userId;
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(400);
+      return res.render("401");
     }
     user.id = user._id;
     delete user._id;
@@ -67,6 +67,6 @@ export async function accessToken(req, res, next) {
     next();
   } catch (error) {
     console.log(error);
-    res.render(500);
+    res.render("500");
   }
 }

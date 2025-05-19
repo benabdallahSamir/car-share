@@ -1,4 +1,5 @@
-import { Car, TemporaryDocuments } from "../models/models.js";
+import { handleCarInformation } from "../middlewars/car.js";
+import { Car, TemporaryDocuments, User } from "../models/models.js";
 import { deleteFile } from "../utils/files.js";
 
 // get
@@ -39,7 +40,7 @@ export async function addCarImg(req, res) {
   let carImg = req.file;
   const { userId } = req;
   if (!carImg) return res.status(400).send();
-  carImg = carImg.path;
+  carImg = carImg.path.replace("public", "");
   try {
     const isExist = await TemporaryDocuments.findOne({ userId });
     if (!isExist) {
@@ -66,8 +67,8 @@ export async function addDocuments(req, res) {
   let [cartGris, permis] = req.files;
   const { userId } = req;
   if (!cartGris || !permis) return res.status(400).send();
-  cartGris = cartGris.path;
-  permis = permis.path;
+  cartGris = cartGris.path.replace("public", "");
+  permis = permis.path.replace("public", "");
 
   // return res.status(201).send();
 
@@ -154,5 +155,32 @@ export async function createNewCard(req, res) {
   } catch (error) {
     console.log(error);
     res.status(500).send();
+  }
+}
+
+export async function annoncePage(req, res) {
+  const { isLogged, user, userId } = req;
+  const { carId } = req.params;
+
+  try {
+    const car = await Car.findById(carId);
+    if (!car) return res.render("404");
+    let carOwner = await User.findById(car.userId);
+    if (carOwner) {
+      carOwner = {
+        name: `${carOwner.nom} ${carOwner.prenom}`,
+        img: carOwner.img,
+        year: carOwner.createdAt.getFullYear(),
+      };
+    }
+    res.render("annonce.ejs", {
+      isLogged,
+      user,
+      carOwner,
+      car: handleCarInformation(car),
+    });
+  } catch (error) {
+    console.log(error);
+    res.render("500");
   }
 }

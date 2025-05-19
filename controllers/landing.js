@@ -1,28 +1,24 @@
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-import { render } from "ejs";
+import { handleCarInformation } from "../middlewars/car.js";
+import Car from "../models/Car.js";
 
 export default async function landingPage(req, res) {
-  // get token from cookies
   try {
-    const token = req.cookies.jwt || "";
-    if (!token) return res.render("index", { isLogged: false });
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(userId);
+    // * get from req
+    const { user, userId, isLogged } = req;
+    // * get some cars
+    let cars = await Car.find({ est_disponible: true, status: "publiee" });
+    cars = cars.slice(0, 4);
+    cars = cars.map((car) => handleCarInformation(car));
+    console.log(cars);
     if (!user) {
       res.clearCookie("jwt");
-      return res.render("index", { isLogged: false });
+      return res.render("index", { cars, isLogged: false });
     }
-    user.id = user._id;
-    delete user._id;
-    delete user.createdAt;
-    delete user.mot_de_passe;
-    console.log(user);
-    return res.render("index", { user, isLogged: true });
+    return res.render("index", { user, cars, isLogged: true });
   } catch (error) {
     console.log(error);
     res.clearCookie("jwt");
-    return res.render("index", { isLogged: false });
+    return res.render("500");
   }
 }
 

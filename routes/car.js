@@ -1,19 +1,21 @@
 import express from "express";
 import {
+  annoncePage,
   gotoConfirmationCarPage,
   gotoDocumentCarPage,
   gotoNewCarPage,
   gotoPhotoCarPage,
   gotoTraficationCarPage,
 } from "../controllers/car.js";
-import { verifyToken } from "../middlewars/token.js";
+import { accessToken, verifyToken } from "../middlewars/token.js";
 
 const router = express.Router();
 
-router.get("/enregister-vehicule",verifyToken, gotoNewCarPage);
-router.get("/enregistrer-tarification",verifyToken, gotoTraficationCarPage);
-router.get("/enregistrer-photo",verifyToken, gotoPhotoCarPage);
-router.get("/enregistrer-document",verifyToken, gotoDocumentCarPage);
-router.get("/enregistrer-confirmation",verifyToken, gotoConfirmationCarPage);
+router.get("/enregister-vehicule", accessToken, gotoNewCarPage);
+router.get("/enregistrer-tarification", accessToken, gotoTraficationCarPage);
+router.get("/enregistrer-photo", accessToken, gotoPhotoCarPage);
+router.get("/enregistrer-document", accessToken, gotoDocumentCarPage);
+router.get("/enregistrer-confirmation", accessToken, gotoConfirmationCarPage);
+router.get("/annonce/:carId", verifyToken, annoncePage);
 
 export default router;
