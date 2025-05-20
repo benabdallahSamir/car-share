@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarShare - Réservations</title>
+    <link rel="stylesheet" href="/css/prop dashboard/reservations.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <%- include('propAsideBar.ejs',{active : "reservations" }) %>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+          <div class="header-title">
+            <h2>Réservations</h2>
+          </div>
+          <%- include('propNavBar.ejs',{user}) %>
+        </header>
+
+        <!-- Reservations Content -->
+        <div class="reservations-content">
+          <div class="reservations-header">
+            <h2>Réservations</h2>
+            <div class="search-filter">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher..." />
+              </div>
+              <button class="btn-filter">
+                <i class="fas fa-filter"></i> Filtrer
+              </button>
+            </div>
+          </div>
+
+          <div class="reservations-tabs">
+            <button class="tab-btn active" data-tab="all">
+              Toutes (<%=reservations.length%>)
+            </button>
+            <button class="tab-btn" data-tab="upcoming">
+              À venir (<%=reservations.length%>)
+            </button>
+            <button class="tab-btn" data-tab="ongoing">
+              En cours (<%=reservations.length%>)
+            </button>
+            <button class="tab-btn" data-tab="completed">
+              Terminées (<%=reservations.length%>)
+            </button>
+            <button class="tab-btn" data-tab="cancelled">
+              Annulées (<%=reservations.length%>)
+            </button>
+          </div>
+
+          <div class="reservations-table-container">
+            <table class="reservations-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Client</th>
+                  <th>Véhicule</th>
+                  <th>Période</th>
+                  <th>Status</th>
+                  <th>Montant</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% reservations.forEach(reservation => { %>
+                <tr>
+                  <td><%=reservation._id%></td>
+                  <td><%=reservation.user.fullname%></td>
+                  <td>
+                    <%=`${reservation.car.marque} ${reservation.car.modele}`%>
+                  </td>
+                  <td>
+                    <%=reservation.periode.debut%> -
+                    <%=reservation.periode.fine%>
+                  </td>
+                  <td>
+                    <span class="status completed"
+                      ><%=reservation.status%></span
+                    >
+                  </td>
+                  <td>185 €</td>
+                  <td><a href="#" class="btn-details">Détails</a></td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <span class="pagination-info">
+              <!-- Affichage de 1 à 4 sur 24 réservations -->
+            </span>
+            <div class="pagination-controls">
+              <button class="btn-page disabled">Précédent</button>
+              <button class="btn-page active">1</button>
+              <button class="btn-page">2</button>
+              <button class="btn-page">3</button>
+              <button class="btn-page">Suivant</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/js/prop dashboard/proprietaire.js"></script>
+  </body>
+</html>

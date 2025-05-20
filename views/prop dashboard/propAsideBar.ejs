@@ -1,6 +1,6 @@
 <aside class="sidebar">
   <div class="logo">
-    <h1>CarShare</h1>
+    <h1 onclick="window.location.href='/'" style="cursor: pointer;">CarShare</h1>
     <p>Espace propriétaire</p>
   </div>
 
@@ -26,15 +26,21 @@
       <i class="far fa-calendar-alt"></i>
       <span>Disponibilité</span>
     </a>
-    <a href="reservations" class="menu-item">
+    <a
+      href="reservations"
+      class="menu-item <%= active === 'reservations' ? 'active' : '' %>"
+    >
       <i class="fas fa-book"></i>
       <span>Réservations</span>
     </a>
-    <a href="#" class="menu-item">
+    <a href="/chat" class="menu-item">
       <i class="far fa-comment-alt"></i>
       <span>Messages</span>
     </a>
-    <a href="revenus" class="menu-item">
+    <a
+      href="revenus"
+      class="menu-item <%= active === 'revenus' ? 'active' : '' %>"
+    >
       <i class="fas fa-chart-line"></i>
       <span>Revenus</span>
     </a>
@@ -42,14 +48,10 @@
 
   <div class="sidebar-footer">
     <a href="#" class="menu-item">
-      <i class="fas fa-cog"></i>
-      <span>Paramètres</span>
-    </a>
-    <a href="#" class="menu-item">
       <i class="fas fa-question-circle"></i>
       <span>Aide</span>
     </a>
-    <a href="../connexion" class="menu-item">
+    <a href="/logout" class="menu-item">
       <i class="fas fa-sign-out-alt"></i>
       <span>Déconnexion</span>
     </a>
