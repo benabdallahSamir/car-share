@@ -77,6 +77,10 @@ const carSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    est_enable: {
+      type: Boolean,
+      default: true,
+    },
     status: {
       type: String,
       enum: ["en_attente", "publiee", "refusée", "archivée"],
