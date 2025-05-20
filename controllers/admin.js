@@ -26,7 +26,6 @@ export async function gotoAdminUsersPage(req, res) {
     const { user, userId } = req;
     // * get users length
     let users = await User.find();
-    console.log(users[0]);
     res.render("admin/users", { user, users });
   } catch (error) {
     console.log(error);
@@ -34,6 +33,59 @@ export async function gotoAdminUsersPage(req, res) {
   }
 }
 
+export async function gotoAnnonce(req, res) {
+  try {
+    const { user, userId } = req;
+
+    // * get cars data
+    let cars = await Car.find();
+    // * get car owner'information
+    let carsFormat = [];
+    for (const car of cars) {
+      const user = await User.findById(car.userId);
+      if (!user) continue;
+      car.ownerAccount = user;
+      carsFormat.push(car);
+    }
+    console.log(carsFormat);
+    res.render("admin/listings", { user, cars: carsFormat });
+  } catch (error) {
+    console.log(error);
+    res.render("500");
+  }
+}
+
+export async function goToAdminDisputes(req, res) {
+  try {
+    const { user } = req;
+
+    res.render("admin/disputes", { user });
+  } catch (error) {
+    console.log(error);
+    res.render("500");
+  }
+}
+export async function goToAdminReports(req, res) {
+  try {
+    const { user } = req;
+
+    res.render("admin/reports", { user });
+  } catch (error) {
+    console.log(error);
+    res.render("500");
+  }
+}
+export async function goToAdminPlaints(req, res) {
+  try {
+    const { user } = req;
+
+    res.render("admin/complaints", { user });
+  } catch (error) {
+    console.log(error);
+    res.render("500");
+  }
+}
+// apis and middle wars
 export default async function accessAdmin(req, res, next) {
   try {
     const { userId, user } = req;
