@@ -1,6 +1,7 @@
 import express from "express";
 import {
   annoncePage,
+  deleteCar,
   gotoConfirmationCarPage,
   gotoDocumentCarPage,
   gotoNewCarPage,
@@ -17,5 +18,6 @@ router.get("/enregistrer-photo", accessToken, gotoPhotoCarPage);
 router.get("/enregistrer-document", accessToken, gotoDocumentCarPage);
 router.get("/enregistrer-confirmation", accessToken, gotoConfirmationCarPage);
 router.get("/annonce/:carId", verifyToken, annoncePage);
+router.get("/car/delete/:carId", verifyToken, deleteCar);
 
 export default router;

@@ -184,3 +184,17 @@ export async function annoncePage(req, res) {
     res.render("500");
   }
 }
+export async function deleteCar(req, res) {
+  try {
+    const { user, userId } = req;
+    const { carId } = req.params;
+    const car = await Car.findById(carId);
+    if (!car) return res.render("404");
+    if (car.userId !== userId.toString()) return res.render("400");
+    await Car.findByIdAndUpdate(carId, { est_enable: false });
+    res.redirect("/mes-vehicules");
+  } catch (error) {
+    console.log(error);
+    res.render("500");
+  }
+}
