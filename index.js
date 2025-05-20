@@ -2,6 +2,7 @@ import { configDotenv } from "dotenv";
 import express from "express";
 import { connectDB } from "./utils/utils.js";
 import {
+  admin,
   api,
   auth,
   car,
@@ -35,6 +36,7 @@ app.use("/api", api);
 app.use("/", propDashboard);
 app.use("/recherche", recherche);
 app.use("/reservation", reservation);
+app.use("/", admin);
 
 app.use((_, res) => {
   res.render("404");

@@ -5,4 +5,14 @@ import api from "./api.js";
 import reservation from "./reservation.js";
 import recherche from "./recherche.js";
 import propDashboard from "./propdashboard.js";
-export { landing, api, auth, reservation, car, propDashboard, recherche };
+import admin from "./admin.js";
+export {
+  landing,
+  admin,
+  api,
+  auth,
+  reservation,
+  car,
+  propDashboard,
+  recherche,
+};

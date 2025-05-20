@@ -1,4 +1,5 @@
 import { generateToken } from "../middlewars/token.js";
+import Admin from "../models/Admin.js";
 import User from "../models/User.js";
 import { comparePassword, hashPassword } from "../utils/bcryptControll.js";
 
@@ -62,10 +63,16 @@ export async function postLogin(req, res) {
     if (!isPasswordCorrect) {
       connexionDataCopy.password = "email or password inccorect";
       connexionDataCopy.email = "email or password inccorect";
-      return res.render("connexion", {...connexionDataCopy ,values : req.body });
+      return res.render("connexion", {
+        ...connexionDataCopy,
+        values: req.body,
+      });
     }
     generateToken(user._id, res);
-    res.redirect("/");
+    const isAdmin = await Admin.findOne({ user_id: user._id });
+    if (!isAdmin) return res.redirect("/");
+
+    res.redirect("/admin");
   } catch (error) {
     console.log(error);
     res.render("500");
@@ -74,7 +81,7 @@ export async function postLogin(req, res) {
 
 export async function postRegister(req, res) {
   let { confirmPassword, email, password, telephone, nom, prenom } = req.body;
-  const registerDataCopy = {...registerData};
+  const registerDataCopy = { ...registerData };
   try {
     if (!nom) {
       registerDataCopy.nom = "nom is required";
