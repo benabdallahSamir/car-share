@@ -389,20 +389,20 @@ document.getElementById("gotoSecondPage").addEventListener("submit", (e) => {
   const modele = document.getElementById("modele").value;
   const annee = document.getElementById("annee").value;
   const kilometrage = document.getElementById("kilometrage").value;
-  const ville = document.getElementById("ville").value;
+  const location = document.getElementById("ville").value.split(" ")[1];
   console.log("annee : " + annee);
   console.log("description : " + description);
   console.log("kilometrage : " + kilometrage);
   console.log("marque : " + marque);
   console.log("modele : " + modele);
-  console.log("ville : " + ville);
+  console.log("ville : " + location);
   const vehiculeInformation = {
     annee,
     description,
     kilometrage,
     marque,
     modele,
-    ville,
+    location,
   };
   localStorage.setItem(
     "vehiculeInformation",

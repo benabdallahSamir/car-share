@@ -10,6 +10,13 @@ export async function gotoNewCarPage(req, res) {
     isLogged: req.isLogged,
   });
 }
+export async function gotoOption(req, res) {
+  // const {user , isLogged} = req
+  res.render("newCar/enregister-options", {
+    user: req.user,
+    isLogged: req.isLogged,
+  });
+}
 export async function gotoTraficationCarPage(req, res) {
   // const {user , isLogged} = req
   res.render("newCar/enregistrer-tarification", {
@@ -51,7 +58,7 @@ export async function addCarImg(req, res) {
       return res.status(201).send();
     }
     // deleting the current files
-    if (isExist.carImg) deleteFile(isExist.carImg);
+    if (isExist.carImg) deleteFile("/public/" + isExist.carImg);
 
     await TemporaryDocuments.findByIdAndUpdate(isExist._id, {
       carImg,
@@ -103,19 +110,21 @@ export async function createNewCard(req, res) {
     modele,
     prix,
     kilometrage,
-    ville,
     description,
+    location,
     annee,
     remiseSemaine = 0,
     remiseMois = 0,
+    Caracteristiques,
   } = req.body;
   const { userId } = req;
   if (
     !marque ||
     !modele ||
     prix < 0 ||
+    Caracteristiques.length === 0 ||
     kilometrage < 0 ||
-    !ville ||
+    !location ||
     !description ||
     +annee < 1950
   )
@@ -138,7 +147,7 @@ export async function createNewCard(req, res) {
       modele,
       prix,
       kilometrage,
-      ville,
+      location,
       description,
       carImg: files.carImg,
       cartGris: files.cartGris,
@@ -147,10 +156,11 @@ export async function createNewCard(req, res) {
       remiseSemaine,
       remiseMois,
       userId,
+      Caracteristiques,
     }).save();
 
     await TemporaryDocuments.findByIdAndDelete(files._id);
-
+    await User.findByIdAndUpdate(userId, { est_proprietaire: true });
     res.status(201).send();
   } catch (error) {
     console.log(error);
