@@ -39,3 +39,6 @@ Thumbs.db
 .DS_Store
 # Optional: specific files
 plan.txt
+/public/*.png
+/public/*.jpg
+/public/*.webP
