@@ -22,23 +22,30 @@
             <h1>Louez une voiture<br />en quelques clics</h1>
             <p class="hero-subtitle">n'as jamais était aussi facile !</p>
 
-            <div class="search-form">
+            <form class="search-form" action="/recherche" method="post">
               <div class="form-group full-width">
                 <input
+                  required
+                  name="adresse"
                   type="text"
                   placeholder="Adresse précise, gare, métro..."
                 />
               </div>
               <div class="form-row">
                 <div class="form-group">
-                  <input type="text" placeholder="Début" id="start-date" />
+                  <input
+                    type="text"
+                    placeholder="Début"
+                    id="start-date"
+                    name="debut"
+                  />
                 </div>
                 <div class="form-group">
-                  <input type="text" placeholder="Fin" id="end-date" />
+                  <input type="text" placeholder="Fin" id="end-date" name="fin"/>
                 </div>
               </div>
-              <button class="btn-search">Rechercher</button>
-            </div>
+              <button class="btn-search" type="submit">Rechercher</button>
+            </form>
             <p class="small-text">
               Location de voiture entre particuliers et pros assurée par
               carshare

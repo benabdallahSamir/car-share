@@ -335,7 +335,6 @@ function initUsers() {
       const button = event.target.closest(".action-btn");
       if (!button) return; // Si ce n'est pas un clic sur un bouton, sortir
       const accountId = button.getAttribute("data-accountId");
-      console.log("Bouton cliqué:", button.textContent.trim());
 
       const row = button.closest("tr");
       if (!row) return;
@@ -357,24 +356,28 @@ function initUsers() {
 
           // Mettre à jour les boutons d'action - seulement le bouton Activer
           actionCell.innerHTML = `
-                <button class="action-btn success">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    Activer
-                </button>
-            `;
+          <button class="action-btn success"
+                  data-accountId="${accountId}"
+                  >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          Activer
+          </button>
+          `;
 
           showNotification(`L'utilisateur "${userName}" a été désactivé.`);
         } else if (buttonText.includes("activer")) {
-          console.log("Activation de l'utilisateur:", userName);
           statusCell.innerHTML =
             '<span class="status-badge active">Actif</span>';
 
           // Mettre à jour les boutons d'action - seulement le bouton Désactiver
           actionCell.innerHTML = `
-                <button class="action-btn danger">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                    Désactiver
-                </button>
+          <button class="action-btn danger"
+                  data-accountId="${accountId}"
+          
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+          Désactiver
+          </button>
             `;
 
           showNotification(`L'utilisateur "${userName}" a été activé.`);
