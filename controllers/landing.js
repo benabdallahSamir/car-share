@@ -9,7 +9,6 @@ export default async function landingPage(req, res) {
     let cars = await Car.find({ est_disponible: true, status: "publiee" });
     cars = cars.slice(0, 4);
     cars = cars.map((car) => handleCarInformation(car));
-    console.log(cars);
     if (!user) {
       res.clearCookie("jwt");
       return res.render("index", { cars, isLogged: false });

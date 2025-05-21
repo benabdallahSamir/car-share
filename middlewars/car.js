@@ -5,8 +5,6 @@ export function handleCarInformation(car) {
   // delete car.status;
   // delete car.est_disponible;
   // delete car.__v;
-  console.log(car)
-  console.log(car.annee)
   return car;
 }
 export function handleCarCard(car) {
