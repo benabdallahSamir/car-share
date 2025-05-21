@@ -99,31 +99,33 @@
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                     Voir
                                                 </button>
-                                                <button class="action-btn danger">
+                                        <% if (car.status === "publiee") { %>
+                                            <button class="action-btn danger" data-carId="<%=car._id %>" >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
                                                     Désactiver
-                                                </button>
+                                            </button>
+                                        <% } else if (car.status === "en_attente") {%>
+                                            <button class="action-btn success" data-carId="<%=car._id %>" >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                Approuver
+                                            </button>
+                                            <button class="action-btn reject" data-carId="<%=car._id %>" >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                                Rejeter
+                                            </button>
+                                        <% } else { %>
+                                            <button class="action-btn success" data-carId="<%=car._id %>" >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                Approuver
+                                            </button>
+                                        <% } %>
+                                            
                                             </div>
                                         </td>
                                     </tr>
                                 <% }) %>
                                 <!-- <tr>
-                                    <td>
-                                        <div class="car-info">
-                                            <div class="car-image">
-                                                <img src="https://via.placeholder.com/50" alt="Peugeot 308">
-                                            </div>
-                                            <div class="car-details">
-                                                <div class="car-name">Peugeot 308</div>
-                                                <div class="car-location">Lyon, France</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Sophie Dubois</td>
-                                    <td>55€</td>
-                                    <td>03/05/2023</td>
-                                    <td>
-                                        <div class="action-buttons">
+                               
                                             <button class="action-btn view">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                 Voir
@@ -238,7 +240,8 @@
     </div>
 
     <!-- Modal pour voir les détails de l'annonce -->
-    <div class="modal" id="listingModal">
+    <% if (model !== null) { %>
+     <div class="modal active" id="listingModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Détails de l'annonce</h3>
@@ -249,41 +252,39 @@
             <div class="modal-body">
                 <div class="listing-details">
                     <div class="listing-images">
-                        <img src="https://via.placeholder.com/400x250" alt="Car Image" class="main-image">
+                        <img src="<%=model.carImg%>" alt="Car Image" class="main-image">
                         <div class="thumbnail-images">
-                            <img src="https://via.placeholder.com/100x60" alt="Thumbnail 1">
-                            <img src="https://via.placeholder.com/100x60" alt="Thumbnail 2">
-                            <img src="https://via.placeholder.com/100x60" alt="Thumbnail 3">
+                            <img src="<%=model.cartGris%>" alt="cartGris">
+                            <img src="<%=model.permis%>" alt="permis">
+                            <img src="<%=model.carImg%>" alt="carImg">
                         </div>
                     </div>
                     <div class="listing-info">
-                        <h4 class="car-title">Renault Clio</h4>
+                        <h4 class="car-title"><%=`${model.marque} ${model.modele}`%></h4>
                         <div class="car-meta">
                             <div class="meta-item">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                <span>2020</span>
+                                <span><%=model.Annee%></span>
                             </div>
                             <div class="meta-item">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                <span>Essence</span>
+                                <span><%=model.Carburant%></span>
                             </div>
                             <div class="meta-item">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8a8 8 0 0 1 16 0c0 7.3-8 11.8-8 11.8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                <span>Paris, France</span>
+                                <span><%model.location%></span>
                             </div>
                         </div>
                         <div class="car-description">
                             <h5>Description</h5>
-                            <p>Renault Clio en excellent état, parfaite pour vos déplacements en ville. Faible consommation, facile à garer et très confortable. Disponible pour location à court ou long terme.</p>
+                            <p><%=model.Description%></p>
                         </div>
                         <div class="car-features">
                             <h5>Caractéristiques</h5>
                             <ul>
-                                <li>Climatisation</li>
-                                <li>GPS</li>
-                                <li>Bluetooth</li>
-                                <li>5 portes</li>
-                                <li>Régulateur de vitesse</li>
+                                <% model.Caracteristiques.forEach(ele => { %>
+                                    <li><%=ele%></li>
+                                <% }) %>
                             </ul>
                         </div>
                         <div class="owner-info">
@@ -293,9 +294,11 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                 </div>
                                 <div class="owner-details">
-                                    <div class="owner-name">Thomas Martin</div>
+                                    <div class="owner-name"><%=`${model.ownerAccount.nom} ${model.ownerAccount.prenom}`%></div>
                                     <div class="owner-rating">
-                                        <span class="stars">★★★★☆</span>
+                                        <span class="stars">
+                                            <%=`${'★'.repeat(model.rating)}☆`%>
+                                        </span>
                                         <span class="rating-count">(12 avis)</span>
                                     </div>
                                 </div>
@@ -306,11 +309,19 @@
             </div>
             <div class="modal-footer">
                 <button class="modal-btn cancel">Fermer</button>
-                <button class="modal-btn approve">Approuver</button>
-                <button class="modal-btn reject">Rejeter</button>
+                <% if (model.status === "publiee") { %>
+                    <button class="modal-btn disable" data-carId="<%=model._id%>">Disable</button>
+                <% } %>
+                <% if (model.status === "en_attente" ) { %>
+                    <button class="modal-btn reject" data-carId="<%=model._id%>">Rejeter</button>
+                <% } %>
+                <% if (["refusée" , "en_attente"].includes(model.status)) { %>
+                    <button class="modal-btn approve" data-carId="<%=model._id%>">Approuver</button>
+                <% } %>
             </div>
         </div>
     </div>
+    <% } %>
 
     <script src="/js/admin/admin.js"></script>
 </body>

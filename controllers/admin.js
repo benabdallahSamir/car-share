@@ -32,7 +32,31 @@ export async function gotoAdminUsersPage(req, res) {
     res.render("500");
   }
 }
-
+export async function gotoModel(req, res) {
+  try {
+    const { user, userId } = req;
+    const { carId } = req.params;
+    if (!carId) return res.redirect("/listings");
+    // * get cars data
+    let cars = await Car.find();
+    // * get car owner'information
+    let carsFormat = [];
+    let model = null;
+    for (const car of cars) {
+      const user = await User.findById(car.userId);
+      if (!user) continue;
+      car.ownerAccount = user;
+      carsFormat.push(car);
+      // * select the special model
+      if (car._id.toString() === carId) model = car;
+    }
+    if (model === null) return res.render("404")
+    res.render("admin/listings", { user, cars: carsFormat, model });
+  } catch (error) {
+    console.log(error);
+    res.render("500");
+  }
+}
 export async function gotoAnnonce(req, res) {
   try {
     const { user, userId } = req;
@@ -47,14 +71,12 @@ export async function gotoAnnonce(req, res) {
       car.ownerAccount = user;
       carsFormat.push(car);
     }
-    console.log(carsFormat);
-    res.render("admin/listings", { user, cars: carsFormat });
+    res.render("admin/listings", { user, cars: carsFormat, model: null });
   } catch (error) {
     console.log(error);
     res.render("500");
   }
 }
-
 export async function goToAdminDisputes(req, res) {
   try {
     const { user } = req;
@@ -105,6 +127,27 @@ export async function accountStatus(req, res) {
     if (!user) return res.status(404).send();
     const newStatus = user.statut_compte === "activé" ? "en_attente" : "activé";
     await User.findByIdAndUpdate(accountId, { statut_compte: newStatus });
+    res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send();
+  }
+}
+export async function carStatus(req, res) {
+  try {
+    const { type, carId } = req.body;
+    console.log(type);
+    console.log(carId);
+    if (!type || !carId) return res.status(400).send();
+    const car = await Car.findById(carId);
+    if (!car) return res.status(404).send();
+    const status =
+      type === "rejected"
+        ? "refusée"
+        : type === "approved"
+        ? "publiee"
+        : "en_attente";
+    await Car.findByIdAndUpdate(carId, { status });
     res.status(200).send();
   } catch (error) {
     console.log(error);

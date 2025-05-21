@@ -7,7 +7,11 @@
 function getCurrentPage() {
   const path = window.location.pathname;
   const page = path.split("/").pop();
-  return page || "dashboard.html"; // Par défaut, on considère qu'on est sur dashboard.html
+  const second = path.split("/");
+  if (second.length === 3 && second[1] === "listings") {
+    return "listings";
+  }
+  return page || "/"; // Par défaut, on considère qu'on est sur dashboard.html
 }
 
 // Fonction pour afficher une notification
@@ -463,99 +467,65 @@ function initUsers() {
 
 // Fonctions pour la page Annonces
 function initListings() {
-  console.log("Initialisation de la page annonces");
-
   // Gestion du modal d'annonce
   const modal = document.getElementById("listingModal");
   const closeModal = document.querySelector(".close-modal");
   const cancelButton = document.querySelector(".modal-btn.cancel");
 
   // Fonction pour ouvrir le modal
-  function openModal(row) {
-    if (!row || !modal) return;
-
-    const carName = row.querySelector(".car-name")?.textContent || "";
-    const carLocation = row.querySelector(".car-location")?.textContent || "";
-    const owner = row.querySelector("td:nth-child(2)")?.textContent || "";
-    const price = row.querySelector("td:nth-child(3)")?.textContent || "";
-    const date = row.querySelector("td:nth-child(4)")?.textContent || "";
-    const status = row.querySelector(".status-badge")?.textContent || "";
-
-    // Mettre à jour les informations dans le modal
-    const titleElement = document.querySelector(".listing-title");
-    const locationElement = document.querySelector(".listing-location");
-    const ownerElement = document.querySelector(".listing-owner");
-    const priceElement = document.querySelector(".listing-price");
-    const dateElement = document.querySelector(".listing-date");
-    const statusElement = document.querySelector(
-      ".listing-status .status-badge"
-    );
-
-    if (titleElement) titleElement.textContent = carName;
-    if (locationElement) locationElement.textContent = carLocation;
-    if (ownerElement) ownerElement.textContent = owner;
-    if (priceElement) priceElement.textContent = price;
-    if (dateElement) dateElement.textContent = `Publiée le ${date}`;
-    if (statusElement) {
-      statusElement.textContent = status;
-      statusElement.className = `status-badge ${status
-        .toLowerCase()
-        .replace(" ", "-")}`;
-    }
-
-    // Mettre à jour les boutons d'action dans le modal
+  (function () {
     const modalApproveBtn = document.querySelector(".modal-btn.approve");
     const modalRejectBtn = document.querySelector(".modal-btn.reject");
     const modalDisableBtn = document.querySelector(".modal-btn.disable");
 
     if (modalApproveBtn) {
-      modalApproveBtn.onclick = function () {
-        const statusCell = row.querySelector("td:nth-child(5)");
-        if (statusCell) {
-          statusCell.innerHTML =
-            '<span class="status-badge active">Actif</span>';
-          updateActionButtons(row, "active");
-          closeModalFunction();
-          showNotification(`L'annonce "${carName}" a été approuvée.`);
+      modalApproveBtn.onclick = async function (e) {
+        const carId = e.target.getAttribute("data-carId");
+        const functionSuccess = () => {
+          showNotification(`L'annonce a été approuvée`);
+        };
+        try {
+          await toggleCarStatus(carId, "approved", functionSuccess);
+        } catch (error) {
+          console.log(error);
         }
       };
     }
 
     if (modalRejectBtn) {
-      modalRejectBtn.onclick = function () {
-        const statusCell = row.querySelector("td:nth-child(5)");
-        if (statusCell) {
-          statusCell.innerHTML =
-            '<span class="status-badge rejected">Rejeté</span>';
-          updateActionButtons(row, "rejected");
-          closeModalFunction();
-          showNotification(`L'annonce "${carName}" a été rejetée.`);
+      modalRejectBtn.onclick = async function (e) {
+        const carId = e.target.getAttribute("data-carId");
+
+        const functionSuccess = () => {
+          showNotification(`L'annonce a été rejetée.`);
+        };
+        try {
+          await toggleCarStatus(carId, "rejected", functionSuccess);
+        } catch (error) {
+          console.log(error);
         }
       };
     }
 
     if (modalDisableBtn) {
-      modalDisableBtn.onclick = function () {
-        const statusCell = row.querySelector("td:nth-child(5)");
-        if (statusCell) {
-          statusCell.innerHTML =
-            '<span class="status-badge pending">En attente</span>';
-          updateActionButtons(row, "pending");
-          closeModalFunction();
-          showNotification(`L'annonce "${carName}" a été désactivée.`);
+      modalDisableBtn.onclick = async function (e) {
+        const carId = e.target.getAttribute("data-carId");
+
+        const functionSuccess = () => {
+          showNotification(`L'annonce a été désactivée.`);
+        };
+        try {
+          await toggleCarStatus(carId, "sss", functionSuccess);
+        } catch (error) {
+          console.log(error);
         }
       };
     }
-
-    modal.classList.add("active");
-    document.body.style.overflow = "hidden";
-  }
-
+  })();
   // Fonction pour fermer le modal
   function closeModalFunction() {
     if (modal) {
-      modal.classList.remove("active");
-      document.body.style.overflow = "";
+      window.location.href = "/listings";
     }
   }
 
@@ -568,6 +538,7 @@ function initListings() {
   }
 
   // Fermer le modal en cliquant en dehors
+
   if (modal) {
     modal.addEventListener("click", function (event) {
       if (event.target === modal) {
@@ -577,22 +548,21 @@ function initListings() {
   }
 
   // Fonction pour mettre à jour les boutons d'action
-  function updateActionButtons(row, status) {
+  function updateActionButtons(row, status, carId) {
     if (!row) return;
 
     const actionCell = row.querySelector("td:last-child");
     const carName = row.querySelector(".car-name")?.textContent || "";
 
     if (!actionCell) return;
-
     if (status === "active") {
       actionCell.innerHTML = `
                         <div class="action-buttons">
-                            <button class="action-btn view">
+                            <button class="voirButton action-btn view" data-carId = '${carId}'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 Voir
                             </button>
-                    <button class="action-btn danger">
+                    <button class="action-btn danger" data-carId = '${carId}'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
                         Désactiver
                             </button>
@@ -602,11 +572,11 @@ function initListings() {
     } else if (status === "rejected") {
       actionCell.innerHTML = `
                 <div class="action-buttons">
-                    <button class="action-btn view">
+                      <button class="voirButton action-btn view" data-carId = '${carId}'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         Voir
                     </button>
-                    <button class="action-btn success">
+                    <button class="action-btn success" data-carId = '${carId}'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                         Approuver
                             </button>
@@ -616,15 +586,15 @@ function initListings() {
     } else if (status === "pending") {
       actionCell.innerHTML = `
                 <div class="action-buttons">
-                    <button class="action-btn view">
+                        <button class="voirButton action-btn view" data-carId = '${carId}'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         Voir
                     </button>
-                    <button class="action-btn success">
+                    <button class="action-btn success" data-carId = '${carId}'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                         Approuver
                     </button>
-                    <button class="action-btn reject">
+                    <button class="action-btn reject" data-carId = '${carId}'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
                         Rejeter
                     </button>
@@ -647,7 +617,6 @@ function initListings() {
       // Ajouter le nouvel écouteur d'événements
       button.addEventListener("click", handleViewClick);
     });
-
     // Boutons d'action (Approuver, Rejeter, Désactiver)
     const actionButtons = document.querySelectorAll(".action-btn:not(.view)");
     actionButtons.forEach((button) => {
@@ -657,34 +626,43 @@ function initListings() {
       button.addEventListener("click", handleActionClick);
     });
   }
-
   // Gestionnaire d'événements pour le bouton "Voir"
-  function handleViewClick() {
+  function handleViewClick(e) {
     const row = this.closest("tr");
+
     if (row) {
-      openModal(row);
+      const carId = e.target.getAttribute("data-carId");
+      if (!carId) return;
+      window.location.href = `/listings/${carId}`;
     }
   }
 
   // Gestionnaire d'événements pour les autres boutons d'action
-  function handleActionClick() {
+  async function handleActionClick(e) {
     const row = this.closest("tr");
     if (!row) return;
+    const carId = e.target.getAttribute("data-carId");
 
     const statusCell = row.querySelector("td:nth-child(5)");
     if (!statusCell) return;
 
     if (this.classList.contains("success")) {
-      statusCell.innerHTML = '<span class="status-badge active">Actif</span>';
-      updateActionButtons(row, "active");
+      await toggleCarStatus(carId, "approved", () => {
+        statusCell.innerHTML = '<span class="status-badge active">Actif</span>';
+        updateActionButtons(row, "active", carId);
+      });
     } else if (this.classList.contains("reject")) {
-      statusCell.innerHTML =
-        '<span class="status-badge rejected">Rejeté</span>';
-      updateActionButtons(row, "rejected");
+      await toggleCarStatus(carId, "rejected", () => {
+        statusCell.innerHTML =
+          '<span class="status-badge rejected">Rejeté</span>';
+        updateActionButtons(row, "rejected", carId);
+      });
     } else if (this.classList.contains("danger")) {
-      statusCell.innerHTML =
-        '<span class="status-badge pending">En attente</span>';
-      updateActionButtons(row, "pending");
+      await toggleCarStatus(carId, "en_attent", () => {
+        statusCell.innerHTML =
+          '<span class="status-badge pending">En attente</span>';
+        updateActionButtons(row, "pending", carId);
+      });
     }
   }
 
@@ -1664,6 +1642,7 @@ function initComplaints() {
 // Initialisation au chargement de la page
 document.addEventListener("DOMContentLoaded", function () {
   const currentPage = getCurrentPage();
+
   switch (currentPage) {
     case "admin":
       initDashboard();
@@ -1735,6 +1714,27 @@ async function toggleStatus(accountId, successfulToggle) {
       },
       body: JSON.stringify(body),
     });
+    if (res.status === 200) {
+      successfulToggle();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function toggleCarStatus(carId, type, successfulToggle) {
+  try {
+    const body = {
+      carId,
+      type,
+    };
+    const res = await fetch("/api/user/carStatus", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    console.log(res);
     if (res.status === 200) {
       successfulToggle();
     }
