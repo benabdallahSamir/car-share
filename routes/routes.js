@@ -6,8 +6,10 @@ import reservation from "./reservation.js";
 import recherche from "./recherche.js";
 import propDashboard from "./propdashboard.js";
 import admin from "./admin.js";
+import profil from "./profil.js";
 export {
   landing,
+  profil,
   admin,
   api,
   auth,

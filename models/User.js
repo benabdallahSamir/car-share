@@ -11,6 +11,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userImg: {
+      type: String,
+      default: "",
+    },
+    device: {
+      type: String,
+      default: "dzd",
+    },
     email: {
       type: String,
       required: true,
@@ -26,6 +34,10 @@ const userSchema = new mongoose.Schema(
     est_proprietaire: {
       type: Boolean,
       default: false,
+    },
+    langue: {
+      type: String,
+      default: "france",
     },
     est_locataire: {
       type: Boolean,

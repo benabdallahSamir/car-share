@@ -7,6 +7,7 @@ import {
   auth,
   car,
   landing,
+  profil,
   propDashboard,
   recherche,
   reservation,
@@ -37,7 +38,7 @@ app.use("/", propDashboard);
 app.use("/recherche", recherche);
 app.use("/reservation", reservation);
 app.use("/", admin);
-
+app.use("/profil", profil);
 app.use((_, res) => {
   res.render("404");
 });
