@@ -6,7 +6,18 @@ export default async function landingPage(req, res) {
     // * get from req
     const { user, userId, isLogged } = req;
     // * get some cars
-    let cars = await Car.find({ est_disponible: true, status: "publiee" });
+    let cars = [];
+    if (userId)
+      cars = await Car.find({
+        est_disponible: true,
+        status: "publiee",
+        userId,
+      });
+    else
+      cars = await Car.find({
+        est_disponible: true,
+        status: "publiee",
+      });
     cars = cars.slice(0, 4);
     cars = cars.map((car) => handleCarInformation(car));
     if (!user) {
