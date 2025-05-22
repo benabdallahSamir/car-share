@@ -1,4 +1,6 @@
 import Car from "../models/Car.js";
+import Reservation from "../models/reservation.js";
+import User from "../models/User.js";
 
 export async function getoMainPropDashboard(req, res) {
   const { user, userId } = req;
@@ -65,12 +67,22 @@ export async function gotoPropDisponibility(req, res) {
 }
 
 export async function getoPropReservations(req, res) {
-  const { user } = req;
+  const { user, userId } = req;
   try {
-    const reservations = [];
+    const myCars = await Car.find({ userId });
+    const myReservation = [];
+    for (let ele of myCars) {
+      const reservations = await Reservation.find({ carId: ele._id });
+      for (let reservationInfo of reservations) {
+        const reservationUser = await User.findById(reservationInfo.userId);
+        reservationInfo.user = reservationUser;
+        reservationInfo.car = ele;
+        myReservation.push(reservationInfo);
+      }
+    }
     res.render("prop dashboard/reservations", {
       user,
-      reservations,
+      reservations: myReservation,
     });
   } catch (error) {
     console.log(error);

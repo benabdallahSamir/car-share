@@ -62,7 +62,7 @@
             <table class="reservations-table">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <!-- <th>ID</th> -->
                   <th>Client</th>
                   <th>Véhicule</th>
                   <th>Période</th>
@@ -74,21 +74,20 @@
               <tbody>
                 <% reservations.forEach(reservation => { %>
                 <tr>
-                  <td><%=reservation._id%></td>
-                  <td><%=reservation.user.fullname%></td>
+                  <!-- <td><%=reservation._id%></td> -->
+                  <td>
+                    <%=`${reservation.user.nom} ${reservation.user.prenom}`%>
+                  </td>
                   <td>
                     <%=`${reservation.car.marque} ${reservation.car.modele}`%>
                   </td>
-                  <td>
-                    <%=reservation.periode.debut%> -
-                    <%=reservation.periode.fine%>
-                  </td>
+                  <td><%=reservation.startDate.replaceAll("-","/")%> - <%=reservation.endDate.replaceAll("-","/")%></td>
                   <td>
                     <span class="status completed"
                       ><%=reservation.status%></span
                     >
                   </td>
-                  <td>185 €</td>
+                  <td><%=reservation.prix%> DA</td>
                   <td><a href="#" class="btn-details">Détails</a></td>
                 </tr>
                 <% }) %>
