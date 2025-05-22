@@ -10,7 +10,6 @@ import {
   profil,
   propDashboard,
   recherche,
-  reservation,
 } from "./routes/routes.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -36,7 +35,6 @@ app.use("/", car);
 app.use("/api", api);
 app.use("/", propDashboard);
 app.use("/recherche", recherche);
-app.use("/reservation", reservation);
 app.use("/", admin);
 app.use("/profil", profil);
 app.use((_, res) => {

@@ -4,6 +4,7 @@ import { accessToken, verifyToken } from "../middlewars/token.js";
 import { addCarImg, addDocuments, createNewCard } from "../controllers/car.js";
 import accessAdmin, { accountStatus, carStatus } from "../controllers/admin.js";
 import { changeProfileImg, updateProfile } from "../controllers/profil.js";
+import { createReservation } from "../controllers/reservations.js";
 const router = express.Router();
 
 router.post("/car", accessToken, upload.array("images"), createNewCard);
@@ -23,5 +24,7 @@ router.put(
   changeProfileImg
 );
 router.put("/profil/information", accessToken, updateProfile);
+
+router.post("/reservation", accessToken, createReservation);
 
 export default router;
