@@ -104,7 +104,6 @@
               <table>
                 <thead>
                   <tr>
-                    <th>ID</th>
                     <th>Sujet</th>
                     <th>Utilisateur</th>
                     <th>Date</th>
@@ -113,12 +112,25 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <% plaints.forEach(plaint => { %>
                   <tr>
-                    <td>#PL-001</td>
-                    <td>Problème de facturation</td>
-                    <td>Thomas Martin</td>
-                    <td>15/04/2023</td>
-                    <td><span class="status-badge new">Nouveau</span></td>
+                    <td><%=plaint.sujet%></td>
+                    <td>
+                      <%=`${plaint.userInformation.nom}
+                      ${plaint.userInformation.prenom}`%>
+                    </td>
+                    <td>
+                      <%=`${plaint.createdAt.getDate()}/${plaint.createdAt.getMonth()+1}/${plaint.createdAt.getFullYear()}`%>
+                    </td>
+                    <% if (plaint.statut ==="En attente") { %>
+                    <td>
+                      <span class="status-badge in-progress">En attente</span>
+                    </td>
+                    <% } else { %>
+                    <td>
+                      <span class="status-badge resolved">solve</span>
+                    </td>
+                    <% } %>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn view">
@@ -162,202 +174,7 @@
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <td>#PL-002</td>
-                    <td>Application mobile défectueuse</td>
-                    <td>Sophie Dubois</td>
-                    <td>03/05/2023</td>
-                    <td>
-                      <span class="status-badge in-progress">En cours</span>
-                    </td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn view">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path
-                              d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-                            ></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                          Voir
-                        </button>
-                        <button class="action-btn resolve">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                          </svg>
-                          Résoudre
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>#PL-003</td>
-                    <td>Service client injoignable</td>
-                    <td>Jean Dupont</td>
-                    <td>12/03/2023</td>
-                    <td><span class="status-badge resolved">Résolu</span></td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn view">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path
-                              d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-                            ></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                          Voir
-                        </button>
-                        <button class="action-btn reopen">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path
-                              d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                            ></path>
-                            <path d="M3 3v5h5"></path>
-                          </svg>
-                          Rouvrir
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>#PL-004</td>
-                    <td>Remboursement non reçu</td>
-                    <td>Marie Leroy</td>
-                    <td>28/05/2023</td>
-                    <td><span class="status-badge new">Nouveau</span></td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn view">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path
-                              d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-                            ></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                          Voir
-                        </button>
-                        <button class="action-btn process">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path d="M12 20h9"></path>
-                            <path
-                              d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
-                            ></path>
-                          </svg>
-                          Traiter
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>#PL-005</td>
-                    <td>Problème de connexion</td>
-                    <td>Pierre Moreau</td>
-                    <td>10/02/2023</td>
-                    <td>
-                      <span class="status-badge in-progress">En cours</span>
-                    </td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn view">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path
-                              d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-                            ></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                          Voir
-                        </button>
-                        <button class="action-btn resolve">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                          </svg>
-                          Résoudre
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                  <% }) %>
                 </tbody>
               </table>
             </div>

@@ -1,5 +1,6 @@
 import Admin from "../models/Admin.js";
 import Car from "../models/Car.js";
+import Plainte from "../models/Plainte.js";
 import User from "../models/User.js";
 
 export async function gotoAdminPage(req, res) {
@@ -100,8 +101,16 @@ export async function goToAdminReports(req, res) {
 export async function goToAdminPlaints(req, res) {
   try {
     const { user } = req;
-
-    res.render("admin/complaints", { user });
+    const plaintsInformations = await Plainte.find();
+    const plaints = [];
+    for (let plaint of plaintsInformations) {
+      const user = await User.findById(plaint.userId);
+      plaint.userInformation = user;
+      plaints.push(plaint);
+      console.log(plaint.userInformation)
+    }
+    // console.log(plaints)
+    res.render("admin/complaints", { user,plaints });
   } catch (error) {
     console.log(error);
     res.render("500");
