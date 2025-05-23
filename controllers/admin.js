@@ -107,9 +107,7 @@ export async function goToAdminPlaints(req, res) {
       const user = await User.findById(plaint.userId);
       plaint.userInformation = user;
       plaints.push(plaint);
-      console.log(plaint.userInformation)
     }
-    // console.log(plaints)
     res.render("admin/complaints", { user,plaints });
   } catch (error) {
     console.log(error);
