@@ -7,6 +7,7 @@ import propDashboard from "./propdashboard.js";
 import admin from "./admin.js";
 import profil from "./profil.js";
 import plainte from "./plainte.js";
+import locataireDashboard from "./locataireDashboard.js";
 export {
   landing,
   profil,
@@ -17,4 +18,5 @@ export {
   propDashboard,
   recherche,
   plainte,
+  locataireDashboard,
 };

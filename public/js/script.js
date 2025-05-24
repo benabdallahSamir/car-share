@@ -43,46 +43,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Search form submission
-  const searchForm = document.querySelector(".search-form");
-  if (searchForm) {
-    const searchButton = searchForm.querySelector(".btn-search");
+  // const searchForm = document.querySelector(".search-form");
+  // if (searchForm) {
+  //   const searchButton = searchForm.querySelector(".btn-search");
 
-    searchButton.addEventListener("click", (e) => {
-      e.preventDefault();
+  //   searchButton.addEventListener("click", (e) => {
+  //     e.preventDefault();
 
-      const addressInput = searchForm.querySelector(
-        'input[placeholder="Adresse précise, gare, métro..."]'
-      );
-      const startDate = startDateInput ? startDateInput.value : "";
-      const endDate = endDateInput ? endDateInput.value : "";
+  //     const addressInput = searchForm.querySelector(
+  //       'input[placeholder="Adresse précise, gare, métro..."]'
+  //     );
+  //     const startDate = startDateInput ? startDateInput.value : "";
+  //     const endDate = endDateInput ? endDateInput.value : "";
 
-      if (!addressInput.value) {
-        alert("Veuillez entrer une adresse");
-        return;
-      }
+  //     if (!addressInput.value) {
+  //       alert("Veuillez entrer une adresse");
+  //       return;
+  //     }
 
-      if (!startDate) {
-        alert("Veuillez sélectionner une date de début");
-        return;
-      }
+  //     if (!startDate) {
+  //       alert("Veuillez sélectionner une date de début");
+  //       return;
+  //     }
 
-      if (!endDate) {
-        alert("Veuillez sélectionner une date de fin");
-        return;
-      }
+  //     if (!endDate) {
+  //       alert("Veuillez sélectionner une date de fin");
+  //       return;
+  //     }
 
-      // Here you would normally send the search request to the server
-      console.log("Searching for cars at:", addressInput.value);
-      console.log("From:", startDate, "To:", endDate);
+  //     // Here you would normally send the search request to the server
+  //     console.log("Searching for cars at:", addressInput.value);
+  //     console.log("From:", startDate, "To:", endDate);
 
-      // For demo purposes, just show an alert
-      alert(
-        `Recherche de voitures à ${addressInput.value} du ${startDate} au ${endDate}`
-      );
-    });
-  }
-
-
+  //     // For demo purposes, just show an alert
+  //     alert(
+  //       `Recherche de voitures à ${addressInput.value} du ${startDate} au ${endDate}`
+  //     );
+  //   });
+  // }
 
   // Mobile menu toggle (for responsive design)
   function createMobileMenu() {

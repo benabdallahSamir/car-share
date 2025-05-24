@@ -7,6 +7,7 @@ import {
   auth,
   car,
   landing,
+  locataireDashboard,
   plainte,
   profil,
   propDashboard,
@@ -36,6 +37,7 @@ app.use("/", car);
 app.use("/api", api);
 app.use("/", propDashboard);
 app.use("/", plainte);
+app.use("/", locataireDashboard);
 app.use("/recherche", recherche);
 app.use("/", admin);
 app.use("/profil", profil);
